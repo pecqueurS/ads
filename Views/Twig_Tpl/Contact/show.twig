@@ -1,0 +1,14 @@
+{% extends "main.twig" %}
+
+
+	{% block container %}
+		<h3>Contact</h3>
+		<form method="POST" action="{{ href }}">
+			<p>
+				{{ form('Contact', 'name') }}
+				{{ form('Contact', 'email') }}
+			</p>
+
+			<input type="submit" class="btn sendMail" name="sendMail" value="{{ dico('send_new_pwd') }}" >
+		</form>
+	{% endblock %}
