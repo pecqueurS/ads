@@ -17,7 +17,15 @@ class Contact {
 		if(!$forgotPwdForm->isValid()) {
 			$response['formContact'] = $forgotPwdForm->render();
 		} else {
-			$response['isMailSent'] = send($destinataire, $name, $message);
+			$isMailSent = Mailer::sendToMe(
+				$forgotPwdForm->getValue('email'), 
+				$forgotPwdForm->getValue('name'), 
+				$forgotPwdForm->getValue('message')
+			);
+			if (!$isMailSent) {
+				$response['formContact'] = $forgotPwdForm->render();
+			}
+			$response['isMailSent'] = $isMailSent;
 		}
 	
 		return $response;

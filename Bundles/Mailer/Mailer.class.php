@@ -2,7 +2,11 @@
 
 namespace ads\Bundles\Mailer;
 
-use ads\Services\Mails\Mails;
+use Services\Mails\Mails;
+use Services\Timer\Timer;
+use ads\Models\MailsModel;
+use Bundles\Parametres\Conf;
+
 /**
 * 
 */
@@ -12,11 +16,12 @@ class Mailer {
 	private $name;
 	private $message;
 	
-	public static function send($destinataire, $name, $message) {
-		return false;
+	public static function sendToMe($destinataire, $name, $message) {
 		$mailer = new Mailer($destinataire, $name, $message);
 		$isSaveInDb = $mailer->saveToDb();
-		$isSaveInDb = $mailer->sendMail();
+		$isSend = $mailer->sendMeAMail();
+
+		return ($isSaveInDb && $isSend);
 	}
 
 	public function __construct($destinataire, $name, $message) {
@@ -26,21 +31,24 @@ class Mailer {
 	}
 
 	public function saveToDb() {
+		$saveMail = MailsModel::init()->addMail(
+			$this->name, 
+			$this->destinataire, 
+			$this->message, 
+			Timer::formatToDateTimeDB() 
+		); // 1 : ok | -1 : ko
 
+		return $saveMail != '-1' ? true : false;
 	}
 
-	public function sendMail() {
+	public function sendMeAMail() {
 		/*ENVOI D'EMAIL*/
-			$destinataire = $result[0]["jou_email"];
-			$sujet = 'Modification du mot de passe sur "'.Conf::$server['name'].'"';
-			$message = array($response, 'forgotPwd');
-			$headers = array(Conf::$server['name'], Conf::$emails['webmaster'][0]);
+			$destinataire = Conf::getEmails()->getWebmaster()[0];
+			$sujet = 'Contact ADS : '. $this->name;
+			$message = $this->message;
+			$headers = array(Conf::getServer()->getName(), $this->destinataire);
 
-			if (Mails::init('html')->sendMail($destinataire,$sujet,$message,$headers) === TRUE && $result2){
-				return TRUE;
-			}else {
-				return FALSE;
-			}
+			return Mails::init('txt')->sendMail($destinataire,$sujet,$message,$headers);
 	}
 
 }
