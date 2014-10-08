@@ -52,13 +52,13 @@
 
     "emails": {
         "dev": [
-            "stephane.pecqueur@gmail.com"
+            "dev@azurdesignsolution.com"
         ],
         "admin": [
-            "stephane.pecqueur@gmail.com"
+            "stephane.pecqueur@azurdesignsolution.com"
         ], 
         "webmaster": [
-            "stephane.pecqueur@gmail.com"
+            "webmaster@azurdesignsolution.com"
         ]
     },
 
