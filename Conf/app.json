@@ -21,7 +21,7 @@
             "bdd_username": "root",
             "bdd_password": "oscar",
             "bdd_bddServer": "localhost",
-            "smtp": "smtp.free.fr",
+            "smtp": "smtp.azurdesignsolution.com",
             "smtp_port": "25"
         },
 
@@ -33,7 +33,7 @@
             "bdd_username": "root",
             "bdd_password": "oscar",
             "bdd_bddServer": "localhost",
-            "smtp": "smtp.free.fr",
+            "smtp": "smtp.azurdesignsolution.fr",
             "smtp_port": "25"
         },
 
